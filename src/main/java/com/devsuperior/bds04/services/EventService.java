@@ -26,7 +26,7 @@ public class EventService {
         Page<Event> page = repository.findAll(pageable);
         return page.map(x -> new EventDTO(x));
     }
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_CLIENT')")
     @Transactional
     public EventDTO insert(EventDTO dto) {
         Event entity = new Event();

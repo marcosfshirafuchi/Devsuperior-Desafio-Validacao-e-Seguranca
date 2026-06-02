@@ -24,7 +24,7 @@ public class CityService {
                 .toList();
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @Transactional
     public CityDTO insert(CityDTO dto) {
 
