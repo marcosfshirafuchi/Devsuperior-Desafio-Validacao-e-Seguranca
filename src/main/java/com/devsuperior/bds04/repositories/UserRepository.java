@@ -4,6 +4,7 @@ import com.devsuperior.bds04.entities.User;
 import com.devsuperior.bds04.projections.UserDetailsProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -17,5 +18,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 			INNER JOIN tb_role ON tb_role.id = tb_user_role.role_id
 			WHERE tb_user.email = :email
 		""")
-    List<UserDetailsProjection> searchUserAndRolesByEmail(String email);
+    List<UserDetailsProjection> searchUserAndRolesByEmail(@Param("email") String email);
 }

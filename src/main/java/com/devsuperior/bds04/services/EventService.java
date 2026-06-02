@@ -1,15 +1,16 @@
 package com.devsuperior.bds04.services;
 
 import com.devsuperior.bds04.dto.EventDTO;
+import com.devsuperior.bds04.entities.City;
 import com.devsuperior.bds04.entities.Event;
+import com.devsuperior.bds04.repositories.CityRepository;
 import com.devsuperior.bds04.repositories.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 public class EventService {
@@ -17,20 +18,23 @@ public class EventService {
     @Autowired
     private EventRepository repository;
 
+    @Autowired
+    private CityRepository cityRepository;
 
-    public List<EventDTO> findAll() {
-        List<Event> list = repository.findAll(Sort.by("name"));
-        return list.stream()
-                .map(x -> new EventDTO(x))
-                .toList();
+
+    public Page<EventDTO> findAll(Pageable pageable) {
+        Page<Event> page = repository.findAll(pageable);
+        return page.map(x -> new EventDTO(x));
     }
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_OPERATOR')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
     @Transactional
     public EventDTO insert(EventDTO dto) {
         Event entity = new Event();
         entity.setName(dto.getName());
         entity.setDate(dto.getDate());
         entity.setUrl(dto.getUrl());
+        City city = cityRepository.getReferenceById(dto.getCityId());
+        entity.setCity(city);
         entity = repository.save(entity);
 
         return new EventDTO(entity);

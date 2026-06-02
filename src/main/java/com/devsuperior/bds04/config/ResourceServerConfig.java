@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -46,8 +47,11 @@ public class ResourceServerConfig {
 
         http.csrf(csrf -> csrf.disable());
 
-        http.authorizeHttpRequests(authorize ->
-                authorize.anyRequest().permitAll()
+        http.authorizeHttpRequests(authorize -> authorize
+                .requestMatchers(HttpMethod.GET, "/cities").permitAll()
+                .requestMatchers(HttpMethod.GET, "/events").permitAll()
+                .requestMatchers(HttpMethod.POST, "/events").hasAnyRole("CLIENT", "ADMIN")
+                .anyRequest().hasRole("ADMIN")
         );
 
         http.oauth2ResourceServer(oauth2ResourceServer ->
