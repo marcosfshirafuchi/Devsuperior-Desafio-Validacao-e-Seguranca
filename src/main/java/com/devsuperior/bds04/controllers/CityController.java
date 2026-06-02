@@ -1,6 +1,7 @@
 package com.devsuperior.bds04.controllers;
 
 import com.devsuperior.bds04.dto.CityDTO;
+import com.devsuperior.bds04.services.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
