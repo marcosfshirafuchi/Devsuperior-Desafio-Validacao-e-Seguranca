@@ -19,7 +19,7 @@
 
 # 📚 Sobre o Projeto
 
-Este projeto foi desenvolvido como parte do curso **Java Spring Expert**, ministrado pelo professor **Nélio Alves** na plataforma DevSuperior.
+Este projeto foi desenvolvido como parte do curso **Java Spring Expert**, ministrado pelo professor **Nélio Alves**, na plataforma DevSuperior.
 
 O objetivo do desafio é implementar autenticação, autorização e validações utilizando Spring Security, OAuth2 Authorization Server, JWT e Bean Validation.
 
@@ -37,21 +37,14 @@ O objetivo do desafio é implementar autenticação, autorização e validaçõe
 ---
 
 # 🏗️ Modelo Conceitual
+
 O sistema consiste em um gerenciamento de eventos e cidades, com autenticação e autorização baseada em perfis de usuário.
 
 <p align="center">
-<a href="https://ibb.co/SDzFtKsL"><img src="https://i.ibb.co/1YkFr9vS/Chat-GPT-Image-1-de-jun-de-2026-23-55-23.png" alt="Modelo Conceitual - Desafio Validação e Segurança" width="900" border="0"></a>
+    <img src="https://i.ibb.co/1YkFr9vS/Chat-GPT-Image-1-de-jun-de-2026-23-55-23.png"
+         alt="Modelo Conceitual - Desafio Validação e Segurança"
+         width="900">
 </p>
-
-O sistema possui entidades de Eventos e Cidades com relacionamento N-1.
-
-```text
-User
- └── Role
-
-City
- └── Event
-```
 
 ### Relacionamentos
 
@@ -64,8 +57,8 @@ Um usuário pode possuir um ou mais perfis:
 
 #### City ↔ Event
 
-* Uma cidade pode possuir vários eventos.
-* Um evento pertence a uma única cidade.
+* Uma cidade pode possuir vários eventos
+* Um evento pertence a uma única cidade
 
 ---
 
@@ -119,8 +112,6 @@ Validação:
 
 * Nome não pode ser vazio
 
----
-
 ## Event
 
 ```java
@@ -157,7 +148,7 @@ Validações:
 ## Backend
 
 * Java 25
-* Spring Boot
+* Spring Boot 4.0.6
 * Spring Web
 * Spring Data JPA
 * Spring Security
@@ -207,6 +198,34 @@ Validações:
 
 ---
 
+# ✅ Critérios de Correção
+
+**Mínimo para aprovação: 10 de 12 testes passando**
+
+## Events
+
+| Endpoint     | Cenário                        | Resultado Esperado       |
+| ------------ | ------------------------------ | ------------------------ |
+| POST /events | Usuário não logado             | 401 Unauthorized         |
+| POST /events | CLIENT logado e dados válidos  | 201 Created              |
+| POST /events | ADMIN logado e dados válidos   | 201 Created              |
+| POST /events | ADMIN logado e nome em branco  | 422 Unprocessable Entity |
+| POST /events | ADMIN logado e data no passado | 422 Unprocessable Entity |
+| POST /events | ADMIN logado e cidade nula     | 422 Unprocessable Entity |
+| GET /events  | Página de recursos             | 200 OK                   |
+
+## Cities
+
+| Endpoint     | Cenário                       | Resultado Esperado       |
+| ------------ | ----------------------------- | ------------------------ |
+| POST /cities | Usuário não logado            | 401 Unauthorized         |
+| POST /cities | CLIENT logado                 | 403 Forbidden            |
+| POST /cities | ADMIN logado e dados válidos  | 201 Created              |
+| POST /cities | ADMIN logado e nome em branco | 422 Unprocessable Entity |
+| GET /cities  | Recursos ordenados por nome   | 200 OK                   |
+
+---
+
 # 📂 Estrutura do Projeto
 
 ```text
@@ -251,9 +270,9 @@ Durante este desafio foram praticados:
 
 * Spring Security
 * OAuth2 Authorization Server
-* Resource Server
+* OAuth2 Resource Server
 * JWT
-* Controle de acesso baseado em perfis
+* Controle de acesso baseado em perfis (RBAC)
 * Bean Validation
 * Tratamento global de exceções
 * APIs REST seguras
